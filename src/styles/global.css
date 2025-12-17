@@ -7,3 +7,15 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #f8f9fa;
 }
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+#main {
+  margin-top: 50px;
+}

@@ -4,7 +4,7 @@ export default function MainLayout() {
   return (
     <div className="d-flex flex-column min-vh-100">
       {/* Header */}
-      <header className="bg-primary text-white">
+      <header id="header" className="bg-primary text-white">
         <div className="container d-flex justify-content-between py-3">
           <Link to="/" className="text-white text-decoration-none fw-bold">
             MyShop
@@ -18,14 +18,14 @@ export default function MainLayout() {
       </header>
 
       {/* Content */}
-      <main className="flex-grow-1">
+      <main id="main" className="flex-grow-1">
         <div className="container py-4">
           <Outlet />
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-dark text-white text-center py-3">
+      <footer id="footer" className="bg-dark text-white text-center py-3">
         © 2025 MyShop
       </footer>
     </div>

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { productService } from "../../services/productService";
+import { Link } from "react-router-dom";
 
 const IMAGE_DOMAIN = import.meta.env.VITE_IMAGE_DOMAIN;
 
@@ -16,6 +17,7 @@ export default function ProductPage() {
   const [lastPage, setLastPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
+  const fetchedRef = useRef(false); // ✅ THÊM DÒNG NÀY
   const fetchProducts = async (pageNumber: number) => {
     try {
       setLoading(true);
@@ -30,6 +32,9 @@ export default function ProductPage() {
   };
 
   useEffect(() => {
+    if (fetchedRef.current) return; // ✅ CHẶN LẦN 2
+    fetchedRef.current = true;
+
     fetchProducts(1);
   }, []);
 
@@ -42,30 +47,35 @@ export default function ProductPage() {
       <div className="row g-4">
         {products.map((p) => (
           <div key={p.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div className="card h-100 shadow-sm">
-              <img
-                src={IMAGE_DOMAIN + p.image}
-                alt={p.name}
-                className="card-img-top"
-                style={{ height: 200, objectFit: "cover" }}
-                onError={(e) =>
-                  ((e.target as HTMLImageElement).src =
-                    "https://via.placeholder.com/300x200?text=No+Image")
-                }
-              />
+            <Link
+              to={`/product/${p.id}`}
+              className="text-decoration-none"
+            >
+              <div className="card h-100 shadow-sm">
+                <img
+                  src={IMAGE_DOMAIN + p.image}
+                  alt={p.name}
+                  className="card-img-top"
+                  style={{ height: 200, objectFit: "cover" }}
+                  onError={(e) =>
+                    ((e.target as HTMLImageElement).src =
+                      "https://via.placeholder.com/300x200?text=No+Image")
+                  }
+                />
 
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">{p.name}</h5>
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title">{p.name}</h5>
 
-                <p className="text-danger fw-bold mt-auto">
-                  {p.price.toLocaleString()} đ
-                </p>
+                  <p className="text-danger fw-bold mt-auto">
+                    {p.price.toLocaleString()} đ
+                  </p>
 
-                <button className="btn btn-outline-primary btn-sm mt-2">
-                  Thêm vào giỏ
-                </button>
+                  <button className="btn btn-outline-primary btn-sm mt-2">
+                    Thêm vào giỏ
+                  </button>
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </div>

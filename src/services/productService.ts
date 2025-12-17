@@ -15,4 +15,8 @@ export const productService = {
       },
     });
   },
+
+  getById<T>(id: number) {
+    return axiosClient.get<T>(`/products/${id}`).then(res => res.data);
+  }
 };
