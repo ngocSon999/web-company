@@ -7,10 +7,9 @@ export interface PaginationResponse<T> {
 }
 
 export const productService = {
-  getByCompany<T>(companyId: number, page = 1): Promise<PaginationResponse<T>> {
+  getByCompany<T>(page = 1): Promise<PaginationResponse<T>> {
     return axiosClient.get("/products", {
       params: {
-        company_id: companyId,
         page,
       },
     });

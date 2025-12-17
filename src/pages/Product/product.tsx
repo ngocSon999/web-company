@@ -22,7 +22,7 @@ export default function ProductPage() {
     try {
       setLoading(true);
 
-      const res = await productService.getByCompany<Product>(3, pageNumber);
+      const res = await productService.getByCompany<Product>(pageNumber);
       setProducts(res.data);
       setPage(res.current_page);
       setLastPage(res.last_page);
@@ -32,7 +32,7 @@ export default function ProductPage() {
   };
 
   useEffect(() => {
-    if (fetchedRef.current) return; // ✅ CHẶN LẦN 2
+    if (fetchedRef.current) return; 
     fetchedRef.current = true;
 
     fetchProducts(1);

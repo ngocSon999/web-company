@@ -1,10 +1,16 @@
 import axios from "axios";
 
+const isProduction = import.meta.env.VITE_PRODUCTION === "true";
+
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: isProduction
+    ? import.meta.env.VITE_API_URL
+    : "/api", 
+
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
+    "X-Frontend-Domain": window.location.hostname
   },
   withCredentials: false, // true nếu dùng cookie
 });
