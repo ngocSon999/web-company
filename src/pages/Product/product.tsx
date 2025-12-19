@@ -67,7 +67,7 @@ export default function ProductPage() {
                   <h5 className="card-title">{p.name}</h5>
 
                   <p className="text-danger fw-bold mt-auto">
-                    {p.price.toLocaleString()} đ
+                    {p.price != null ? p.price.toLocaleString() : '0'} đ
                   </p>
 
                   <button className="btn btn-outline-primary btn-sm mt-2">
