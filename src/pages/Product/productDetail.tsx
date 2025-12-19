@@ -13,23 +13,23 @@ export default function ProductDetail() {
   const fetchedRef = useRef(false);
 
   useEffect(() => {
-  if (!id) return;
-  if (fetchedRef.current) return; // 👈 CHẶN LẦN 2
+    if (!id) return;
+    if (fetchedRef.current) return; // 👈 CHẶN LẦN 2
 
-  fetchedRef.current = true;
+    fetchedRef.current = true;
 
-  const fetchProduct = async () => {
-    try {
-      setLoading(true);
-      const result = await productService.getById(Number(id));
-      setProduct(result);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const result = await productService.getById(Number(id));
+        setProduct(result);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchProduct();
-}, [id]);
+    fetchProduct();
+  }, [id]);
 
   if (loading) return <p>Đang tải...</p>;
   if (!product) return <p>Không tìm thấy sản phẩm</p>;

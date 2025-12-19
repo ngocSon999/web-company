@@ -6,12 +6,6 @@ import {
   type ProductList,
 } from "../schemas/product.schema";
 
-export interface PaginationResponse<T> {
-  data: T[];
-  current_page: number;
-  last_page: number;
-}
-
 export const productService = {
   async getByCompany(page = 1): Promise<ProductList> {
     const res = await axiosClient.get("/products", {
