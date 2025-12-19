@@ -51,10 +51,6 @@ export default function ProductPage() {
                   alt={p.name}
                   className="card-img-top"
                   style={{ height: 200, objectFit: "cover" }}
-                  onError={(e) =>
-                    ((e.target as HTMLImageElement).src =
-                      "https://via.placeholder.com/300x200?text=No+Image")
-                  }
                 />
 
                 <div className="card-body d-flex flex-column">

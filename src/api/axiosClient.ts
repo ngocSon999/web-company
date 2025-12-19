@@ -15,6 +15,19 @@ const axiosClient = axios.create({
   withCredentials: false, // true nếu dùng cookie
 });
 
+/**
+ * 👉 Request interceptor: gắn token nếu có
+ */
+axiosClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem("customer_token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
 axiosClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
