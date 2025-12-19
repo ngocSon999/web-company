@@ -1,19 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { productService } from "../../services/productService";
-import { z } from "zod";
+import type { Product } from "../../schemas/product.schema";
 
 const IMAGE_DOMAIN = import.meta.env.VITE_IMAGE_DOMAIN;
-
-const ProductSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  price: z.coerce.number(),
-  image: z.string(),
-  description: z.string().optional(),
-});
-
-type Product = z.infer<typeof ProductSchema>;
 
 export default function ProductDetail() {
   const { id } = useParams(); 
@@ -31,9 +21,8 @@ export default function ProductDetail() {
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      const result = await productService.getById<Product>(Number(id));
-      const product = ProductSchema.parse(result);
-      setProduct(product);
+      const result = await productService.getById(Number(id));
+      setProduct(result);
     } finally {
       setLoading(false);
     }
@@ -49,7 +38,7 @@ export default function ProductDetail() {
     <div className="row">
       <div className="col-md-5">
         <img
-          src={IMAGE_DOMAIN + product.image}
+          src={product.image ? IMAGE_DOMAIN + product.image : "/images/no-image.png"}
           alt={product.name}
           className="img-fluid rounded"
         />
@@ -59,7 +48,7 @@ export default function ProductDetail() {
         <h2>{product.name}</h2>
 
         <p className="text-danger fw-bold fs-4">
-          {product.price.toLocaleString()} đ
+          {product.price != null ? product.price.toLocaleString() : '0'} đ
         </p>
 
         {product.description && (

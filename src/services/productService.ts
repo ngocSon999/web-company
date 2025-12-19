@@ -1,4 +1,10 @@
 import axiosClient from "../api/axiosClient";
+import {
+  ProductSchema,
+  ProductListSchema,
+  type Product,
+  type ProductList,
+} from "../schemas/product.schema";
 
 export interface PaginationResponse<T> {
   data: T[];
@@ -7,15 +13,16 @@ export interface PaginationResponse<T> {
 }
 
 export const productService = {
-  getByCompany<T>(page = 1): Promise<PaginationResponse<T>> {
-    return axiosClient.get("/products", {
-      params: {
-        page,
-      },
+  async getByCompany(page = 1): Promise<ProductList> {
+    const res = await axiosClient.get("/products", {
+      params: { page },
     });
+
+    return ProductListSchema.parse(res);
   },
 
-  getById<T>(id: number) {
-    return axiosClient.get<T>(`/products/${id}`).then(res => res.data);
-  }
+  async getById(id: number): Promise<Product> {
+    const res = await axiosClient.get(`/products/${id}`);
+    return ProductSchema.parse(res.data);
+  },
 };

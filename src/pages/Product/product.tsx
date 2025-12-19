@@ -1,15 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { productService } from "../../services/productService";
 import { Link } from "react-router-dom";
+import type { Product } from "../../schemas/product.schema";
 
 const IMAGE_DOMAIN = import.meta.env.VITE_IMAGE_DOMAIN;
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-}
 
 export default function ProductPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -22,7 +16,7 @@ export default function ProductPage() {
     try {
       setLoading(true);
 
-      const res = await productService.getByCompany<Product>(pageNumber);
+      const res = await productService.getByCompany(pageNumber);
       setProducts(res.data);
       setPage(res.current_page);
       setLastPage(res.last_page);
@@ -53,7 +47,7 @@ export default function ProductPage() {
             >
               <div className="card h-100 shadow-sm">
                 <img
-                  src={IMAGE_DOMAIN + p.image}
+                  src={p.image ? IMAGE_DOMAIN + p.image : "/images/no-image.png"}
                   alt={p.name}
                   className="card-img-top"
                   style={{ height: 200, objectFit: "cover" }}
